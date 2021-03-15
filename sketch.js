@@ -3,49 +3,51 @@ const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Body = Matter.Body;
-const Constraint = Matter.Constraint;
-var boy, stone, mango1, mango2, mango3, mango4, mango5, mango6, mango7, mango8, mango9, ground, tree,hold;
-var gameState = "seige1";
-var PLAY;
-var Seige5
-var seige4 = 1;
-var seige2 = 0;
-var seige3 = PLAY;
-var END = Seige5
+const Constraint =Matter.Constraint
+
+
 
 function preload()
 {
-	boyImage = loadImage("boy.png");
-	treeImage = loadImage("tree.png");
+	
+
+
 }
 
 function setup() {
-	createCanvas(1520, 780);
+	createCanvas(1200, 700);
 
 
 	engine = Engine.create();
 	world = engine.world;
 
-	boy = createSprite(350,660,20,20);
-	boy.addImage(boyImage);
-	boy.scale = 0.15;
-	tree = createSprite(1200,420,600,600);
-	tree.addImage(treeImage);
-	tree.scale = 0.5;
+g=new Ground(590,700,1200,20)
 
-	ground = new Ground(760,780,1550,20);
-	stone = new Stone(280,575,60);
-	hold = new SlingShot(stone.body, {x:280 , y:575});
-	mango1 = new Mango(1300,300,60);
-	mango2 = new Mango(1180,230,60);
-	mango3 = new Mango(1340,180,60);
-	mango4 = new Mango(1380,390,60);
-	mango5 = new Mango(1000,320,60);
-	mango6 = new Mango(1190,340,60);
-	mango7 = new Mango(1250,170,60);
-	mango8 = new Mango(1420,310,60);
-	mango9 = new Mango(1080,340,60);
+boy=new Boy(240,625,250,250)
 
+t=new Tree(950,450,500,500)
+
+m1=new Mango(950,350,50)
+
+m2=new Mango(900,400,60)
+
+m3=new Mango(900,350,50)
+
+m4=new Mango(800,440,55)
+
+m5 =new Mango(1000,300,60)
+
+m6=new Mango(1100,350,60)
+
+m7=new Mango(950,270,66)
+
+m8=new Mango(830,390,60)
+
+m9=new Mango(1000,400,55)
+
+s=new Stone(140,580,50)
+
+rubber=new Rubber(s.body,{x:140,y:575})
 
 	Engine.run(engine);
   
@@ -53,116 +55,73 @@ function setup() {
 
 
 function draw() {
-  if(keyDown("Alt")){
-    gameState=seige4;
-  
-  }
-  if(keyDown("Shift")){
-    gameState = seige2;
-
-  }
-  
-  if(keyDown("Enter")){
-    gameState=seige3;
-  }
-  
   rectMode(CENTER);
-  background(219,219,219);
-  textSize(40);
-  text("Press Space to get a Second Chance to Play!!!",100,100)
+  background(230,230,230);
   
+boy.display();
+g.display();
+t.display();
+m1.display();
+m2.display();
+m3.display();
+m4.display();
+m5.display();
+m6.display();
+m7.display();
+m8.display();
+m9.display();
+s.display();
+rubber.display();
+
   drawSprites();
-  
-  if(gameState===seige3){
-    background(0)
-    textSize(50);
-    fill("yellow");
-     text("instruction:dragg the stone to set the angle to plulk the mango ",50,100);
-     text("instruction:release the stone to off Constraint between the ,",50,250)
-     text("stone and sling .",50,400);
-     fill("green");
-     text("prees Alt to enter the game",200,600);
-  }
-  if(gameState===seige2){
-  background(0)  
-  textSize(50)
-  fill("red")
-  text("story:in the summer season a child name karan goes to his granny,",25,50);
-  text("home ,and when he have been comed to his granny home he've,",25,120);
-  text("been seen the big mango tree in his granny home ,and when,",25,190);
-  text("he is trying to pluck the mangoes he is trying but the  ,",25,260)
-  text("mangoes are not pluking ,so lets help the karan to pluck, ",25,330)
-  text("the mangoes.",25,400);
-  fill("yellow");
-  text("press Enter to see the instruction",200,600);
-  }
-  if(gameState==="seige1"){
-    background(0);
-    textSize(50)
-    fill("red");
-    text("WhiteHat jr/Project/C28/Siddharth purohit/2/1/2020/",50,100);
-    fill("yellow");
-    text("Press Shift to see the Story",50,250);
-  }
-  if(gameState===seige4){
-  ground.display();
-  mango1.display();
-  mango2.display();
-  mango3.display();
-  mango4.display();
-  mango5.display();
-  mango6.display();
-  mango7.display();
-  mango8.display();
-  mango9.display();
-  hold.display();
-  stone.display();
 
-  detectCollision(stone,mango1);
-  detectCollision(stone,mango2);
-  detectCollision(stone,mango3);
-  detectCollision(stone,mango4);
-  detectCollision(stone,mango5);
-  detectCollision(stone,mango6);
-  detectCollision(stone,mango7);
-  detectCollision(stone,mango8);
-  detectCollision(stone,mango9);
+detect(m1,s)
+detect(m2,s)
+detect(m3,s)
+detect(m4,s)
+detect(m5,s)
+detect(m6,s)
+detect(m7,s)
+detect(m8,s)
+detect(m9,s)
 
-  
-  
-  }
-
+ 
 }
+
 
 function mouseDragged(){
-    Matter.Body.setPosition(stone.body,{x: mouseX, y: mouseY});
-}
 
-function mouseReleased(){
-    hold.fly();
-}
-
-function detectCollision(lstone, lmango)
-{
- mangoBodyPosition = lmango.body.position
- stoneBodyPosition = lstone.body.position
-
-  var distance = dist(stoneBodyPosition.x, stoneBodyPosition.y,mangoBodyPosition.x, mangoBodyPosition.y)
-  
-  if(distance<=lmango.r+lstone.r)
-  {
-    Matter.Body.setStatic(lmango.body, false);
-    
-  }
-  
-
-}
+	Matter.Body.setPosition(s.body,{x:mouseX,y:mouseY})
+	
+	
+	}
+	
+	
+	function mouseReleased(){
+	
+	rubber.fly()
+	
+	}
 
 function keyPressed(){
-	if(keyCode === 32) {
-		Matter.Body.setPosition(stone.body, {x:280, y:575})
-		hold.attach(stone.body);
-	}
+
+if(keyCode===32){
+	rubber.attach(s.body)
 }
+
+}
+
+function detect (object1,object2){
+
+	var distance =dist(object1.body.position.x,object1.body.position.y,
+		object2.body.position.x,object2.body.position.y	)
+
+		if(distance<=object1.r+object2.r){
+			Matter.Body.setStatic(object1.body,false)
+		}
+
+}
+
+
 
 
